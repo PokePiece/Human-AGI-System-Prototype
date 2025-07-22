@@ -63,7 +63,7 @@ C++ Qt Side
 ``` bash qmake HumanAGI.pro
 mingw32-make
 ```
-### Python Server
+Python Server
 ```bash
 
 cd Python
