@@ -16,10 +16,14 @@
 #include "VisionComponent.h"
 #include "LanguageComponent.h"
 #include "VoidBrain.h"
+#include "AGIRuntime.hpp"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    AGIRuntime *runtime = new AGIRuntime();
+    runtime->start();
 
     std::shared_ptr<Brain> brain = std::make_shared<Brain>();
     VoidBrain voidBrain;

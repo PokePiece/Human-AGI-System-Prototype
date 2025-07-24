@@ -12,6 +12,43 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+
+cmake_minimum_required(VERSION 3.16)
+project(CoreBrain)
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(llama.cpp)
+
+add_executable(corebrain
+    src/corebrain.cpp
+    src/main.cpp
+    # <-- add llama.cpp/ prefix here
+    llama.cpp/ggml/src/ggml.c
+    llama.cpp/ggml/src/ggml-alloc.c
+    llama.cpp/ggml/src/ggml-backend-reg.cpp
+    llama.cpp/ggml/src/ggml-backend.cpp
+    llama.cpp/ggml/src/ggml-opt.cpp
+    llama.cpp/ggml/src/ggml-quants.c
+    llama.cpp/ggml/src/ggml-threading.cpp
+    llama.cpp/ggml/src/ggml.cpp
+    llama.cpp/ggml/src/gguf.cpp
+)
+
+
+
+
+
+
+
+
+target_link_libraries(corebrain pthread)
+target_include_directories(corebrain PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(corebrain PRIVATE "${CMAKE_SOURCE_DIR}/llama.cpp/include")
+
+
+
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/mainwindow.cpp
@@ -27,6 +64,7 @@ set(PROJECT_SOURCES
     include/Component.h
     include/VoidBrain.h
     src/VoidBrain.cpp
+    include/CoreBrain.h
 )
  
 
@@ -76,12 +114,11 @@ if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Human_AGI)
 endif()
 set_target_properties(Human_AGI PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+
+
 
 include(GNUInstallDirs)
 install(TARGETS Human_AGI
