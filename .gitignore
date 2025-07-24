@@ -31,3 +31,6 @@ Thumbs.db
 venv/
 .env
 __pycache__
+
+llama.cpp/
+llama.cpp

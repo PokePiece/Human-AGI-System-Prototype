@@ -1,14 +1,19 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include <QPushButton>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    // Create widgets manually
+    QWidget *central = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout(central);
+
+    QPushButton *button = new QPushButton("Click me", central);
+    layout->addWidget(button);
+
+    setCentralWidget(central);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+MainWindow::~MainWindow() = default;  // no Ui pointer to delete
+

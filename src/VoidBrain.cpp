@@ -1,9 +1,10 @@
 #include "VoidBrain.h"
 #include <iostream>
 #include <string>
+
+#ifdef USE_CURL
 #include <curl/curl.h>
 #include "json.hpp"
-
 using json = nlohmann::json;
 
 std::string callVoidAGI(const std::string& message) {
@@ -43,3 +44,9 @@ std::string callVoidAGI(const std::string& message) {
 
     return result;
 }
+#else
+std::string callVoidAGI(const std::string& message) {
+    (void)message;
+    return "Curl support disabled";
+}
+#endif

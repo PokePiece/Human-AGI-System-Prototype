@@ -16,14 +16,19 @@
 #include "VisionComponent.h"
 #include "LanguageComponent.h"
 #include "VoidBrain.h"
-#include "AGIRuntime.hpp"
+#include "llama.h"
+//#include "AGIRuntime.hpp"
 
 int main(int argc, char *argv[])
 {
+
+    llama_backend_init(true); 
+
+
     QApplication app(argc, argv);
 
-    AGIRuntime *runtime = new AGIRuntime();
-    runtime->start();
+    //AGIRuntime *runtime = new AGIRuntime();
+    //runtime->start();
 
     std::shared_ptr<Brain> brain = std::make_shared<Brain>();
     VoidBrain voidBrain;
@@ -31,7 +36,7 @@ int main(int argc, char *argv[])
     Body body;
     body.linkBrain(brain);
 
-    brain->loadModel("/path/to/model");
+    brain->loadModel("../llama.cpp/models/mistral-7b-instruct-v0.1.Q4_K_M.gguf");
     voidBrain.loadSystem("/path/to/config");
 
     // Setup main window
@@ -115,5 +120,14 @@ int main(int argc, char *argv[])
 
     window.resize(800, 500);
     window.show();
+
+
+    QObject::connect(&app, &QApplication::aboutToQuit, [](){
+        llama_backend_free();
+        std::cout << "Llama backend freed." << std::endl;
+    });
+
+
+
     return app.exec();
 }
